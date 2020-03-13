@@ -16,14 +16,14 @@ import {withStyles} from '@material-ui/core/styles';
 const styles = theme => ({
   root: {
     width: '100%',
-    marginTop: theme.spacing.unit * 3,
+    marginTop: theme.spacing(3),
     overflowX: "auto"
   },
   table: {
     minWidth: 1080
   },
   progress: {
-    margin: theme.spacing.unit * 2
+    margin: theme.spacing(2)
   }
 })
 
@@ -32,7 +32,6 @@ class App extends React.Component {
     super(props)
     this.state = {
       customers: "",
-      test: "",
       completed: 0
     }
   }
@@ -43,7 +42,7 @@ class App extends React.Component {
         .catch(err => console.log(err));
   }
   progress = () => {
-    const { completed } = this.state.completed;
+    const { completed } = this.state;
     this.setState( {completed: completed >= 100 ? 0 : completed +1});
   }
   callApi = async () => {
@@ -78,13 +77,13 @@ class App extends React.Component {
                                                   gender = {c.gender}
                                                   job = {c.job}
                                                 />
-                                      }) : ""
+                                      }) : <TableRow>
+                                            <TableCell colSpan="6" align="center">
+                                              <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}/>
+                                            </TableCell>
+                                          </TableRow>
           }
-        <TableRow>
-          <TableCell colSpan="6" align="center">
-            <CircularProgress className={classes.progress} variant="determinate" value={this.state.completed}/>
-          </TableCell>
-        </TableRow>
+        
         </TableBody>
        </Table>
        </Paper>
