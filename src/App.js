@@ -33,6 +33,15 @@ class App extends React.Component {
       completed: 0
     }
   }
+  stateRefresh = () => {
+    this.setState( {
+      customers: "",
+      completed: 0
+    });
+    this.callApi()
+        .then(res => this.setState({customers: res}))
+        .catch(err => console.log(err));
+  }
   componentDidMount() {
     this.timer = setInterval(this.progress,20);
     this.callApi()
@@ -46,6 +55,7 @@ class App extends React.Component {
   callApi = async () => {
     const res = await fetch("/customer");
     const body = await res.json();
+    console.log(body);
     return body;
   }
   render() {
@@ -86,7 +96,7 @@ class App extends React.Component {
           </TableBody>
         </Table>
         </Paper>
-        <CustomerAdd/>
+        <CustomerAdd stateRefresh={this.stateRefresh}/>
        </div>
     );
   }
